@@ -46,6 +46,7 @@
 ---
 
 ## 🎥 Demo
+
 > Watch the demo video: [assets/demo.mp4](assets/demo.mp4)
 
 ---
@@ -53,6 +54,7 @@
 ## ⚙️ Setup Instructions
 
 ### Prerequisites
+
 - Python 3.x installed
 - Git installed
 
@@ -60,7 +62,7 @@
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yachikasharma-art/DevDairy-Blog-app.git
+git clone https://github.com/yachikadev/DevDairy-Blog-app.git
 cd DevDairy-Blog-app
 ```
 
@@ -91,11 +93,14 @@ python manage.py runserver
 ```
 
 7. **Open in browser**
+
 http://127.0.0.1:8000
 
 ---
 
 ## 📁 Project Structure
+
+```
 DevDairy-Blog-app/
 ├── mysite/
 │   ├── settings.py
@@ -120,6 +125,7 @@ DevDairy-Blog-app/
 │   └── demo.mp4
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
@@ -131,5 +137,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👩‍💻 Author
 
-**Yachika Sharma**  
-- GitHub: [@yachikasharma-art](https://github.com/yachikasharma-art)
+**Yachika Sharma**
+- GitHub: [@yachikadev](https://github.com/yachikadev)
