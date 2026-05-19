@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        min-height: 100vh;
+        color: black;
+    }
+    
+    .card {
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    border-left: 5px solid #764ba2;
+    color: black;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+    
+    .navbar {
+        background: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px);
+    }
+    
+    .navbar-brand, .nav-link {
+        color: white !important;
+        font-weight: bold;
+    }
+
+    h1 {
+        color: white;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+    .dropdown-menu {
+    z-index: 9999;
+}
+</style>
+    <title>DevDiary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.3); position: relative; z-index: 1000;">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'post_list' %}" style="font-family: 'Georgia', serif; font-size: 28px; font-weight: 800; color: white; letter-spacing: 2px;">✍️ DevDiary</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            
+            <li class="nav-item">
+                <a class="nav-link text-white fw-bold" href="{% url 'post_list' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    category
+              </a> 
+              <ul class="dropdown-menu" style="z-index: 9999 !important; position: absolute;">
+                <li><a class="dropdown-item" href="{% url 'category_view' 'nature' %}">Nature Related</a></li>
+                <li><a class="dropdown-item" href="{% url 'category_view' 'health' %}">Health Related</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'category_view' 'tech' %}">Tech Related</a></li>
+            </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white fw-bold" href="#">Contact Us</a>
+            </li>
+            {% if user.is_authenticated %}
+<li class="nav-item">
+    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="nav-link text-white fw-bold" style="background: none; border: none; cursor: pointer;">Logout</button>
+    </form>
+</li>
+{% else %}
+<li class="nav-item">
+    <a class="nav-link text-white fw-bold" href="{% url 'login' %}">Login</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-white fw-bold" href="{% url 'register' %}">Register</a>
+</li>
+{% endif %}
+
+        </ul>
+        <form class="d-flex" role="search" action="{% url 'post_list' %}">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search"/>
+            <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="container mt-4">
+    <p style="color: rgba(255,255,255,0.7); font-size: 18px; font-style: italic;">Where ideas come to life...</p>
+    <hr style="border-color: rgba(255,255,255,0.3);">
+   {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-dismissible fade show mt-2" role="alert" 
+             style="background: rgba(255,255,255,0.9); border-left: 5px solid #764ba2; border-radius: 10px; font-size: 18px; font-weight: 600; color: #333;">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

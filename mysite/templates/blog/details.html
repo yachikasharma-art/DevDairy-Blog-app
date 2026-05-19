@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="card">
+    {% if post.image %}
+    <img src="{{ post.image.url }}" class="card-img-top" style="height: 400px; object-fit: cover;">
+    {% endif %}
+    <div class="card-body">
+        <h1 class="card-title">{{ post.title }}</h1>
+        <small>{{ post.author }} | {{ post.created_at }}</small>
+        <hr>
+        <p class="card-text mt-3">{{ post.content }}</p>
+    </div>
+</div>
+{% endblock %}
