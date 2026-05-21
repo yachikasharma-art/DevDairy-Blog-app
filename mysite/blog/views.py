@@ -7,19 +7,22 @@ from django.contrib import messages
 from django.contrib.auth import login
 from .forms import PostForm
 from django.views import View
+from django.views.generic import DetailView, ListView
 
-class PostList(View):
-    def get(self,request):
-        query = request.GET.get('q')
+class PostList(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
         if query:
-            posts = Post.objects.filter(title__icontains=query)
-        else:
-            posts = Post.objects.all()
-        return render(request, 'blog/post_list.html', {'posts': posts})
-class PostDetails(View):        
-    def get(self,request,pk):
-        post= get_object_or_404(Post, pk=pk)
-        return render(request, 'blog/details.html',{'post':post})
+            return Post.objects.filter(title__icontains=query)
+        return Post.objects.all()
+class PostDetails(DetailView):
+    model = Post
+    template_name = 'blog/details.html'
+    context_object_name = 'post'
 def category_view(request, category):
     posts = Post.objects.filter(category=category)
     return render(request, 'blog/post_list.html', {'posts': posts})
