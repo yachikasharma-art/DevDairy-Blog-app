@@ -5,18 +5,21 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import login
+from .forms import PostForm
+from django.views import View
 
-
-def post_list(request):
-    query = request.GET.get('q')
-    if query:
-        posts = Post.objects.filter(title__icontains=query)
-    else:
-        posts = Post.objects.all()
-    return render(request, 'blog/post_list.html', {'posts': posts})
-def post_details(request,pk):
-    post= get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/details.html',{'post':post})
+class PostList(View):
+    def get(self,request):
+        query = request.GET.get('q')
+        if query:
+            posts = Post.objects.filter(title__icontains=query)
+        else:
+            posts = Post.objects.all()
+        return render(request, 'blog/post_list.html', {'posts': posts})
+class PostDetails(View):        
+    def get(self,request,pk):
+        post= get_object_or_404(Post, pk=pk)
+        return render(request, 'blog/details.html',{'post':post})
 def category_view(request, category):
     posts = Post.objects.filter(category=category)
     return render(request, 'blog/post_list.html', {'posts': posts})
@@ -36,18 +39,17 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'blog/register.html', {'form': form})
-class PostForm(ModelForm):
-    class Meta:
-        model = Post
-        fields = ['title', 'content', 'author', 'category', 'image']
+from .forms import PostForm
+from django.views import View
 
-@login_required
-def add_post(request):
-    if request.method == 'POST':
+class AddPostView(View):
+    def get(self, request):
+        form = PostForm()
+        return render(request, 'blog/add_post.html', {'form': form})
+        
+    def post(self, request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('post_list')
-    else:
-        form = PostForm()
-    return render(request, 'blog/add_post.html', {'form': form})
+        return render(request, 'blog/add_post.html', {'form': form})
